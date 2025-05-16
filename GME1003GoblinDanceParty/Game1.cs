@@ -21,6 +21,7 @@ namespace GME1003GoblinDanceParty
 
         private Random _rng;            //for all our random number needs                    
         private List<float> _starRotations;    // Task 2: rotation per star
+        private float _rotationSpeed = 0.01f; // adjust for faster/slower spin
         private List<float> _starTransparencies; // Task 3: transparency per star
         private List<float> _starScales; // Task 4: scale per star
         private List<Color> _starColors; // Task 5: color per star
@@ -133,9 +134,19 @@ namespace GME1003GoblinDanceParty
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-   
+
             //***This is for the goblin. Ignore it for now.
             goblin.Update(gameTime);
+
+
+            for (int i = 0; i < _starRotations.Count; i++)
+            {
+                _starRotations[i] += _rotationSpeed;
+
+                if (_starRotations[i] > MathF.Tau) // keep it between 0 and 2π
+                    _starRotations[i] -= MathF.Tau;
+            }
+
 
             base.Update(gameTime);
         }

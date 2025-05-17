@@ -11,6 +11,8 @@ namespace GME1003GoblinDanceParty
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Texture2D _background; // background image
+
 
         //Declare some variables
         private int _numStars;          //how many stars?
@@ -21,7 +23,7 @@ namespace GME1003GoblinDanceParty
 
         private Random _rng;            //for all our random number needs                    
         private List<float> _starRotations;    // Task 2: rotation per star
-        private float _rotationSpeed = 0.01f; // adjust for faster/slower spin
+        private float _rotationSpeed = 0.01f; // Star rotation faster/slower spin
         private List<float> _starTransparencies; // Task 3: transparency per star
         private List<float> _starScales; // Task 4: scale per star
         private List<Color> _starColors; // Task 5: color per star
@@ -70,7 +72,7 @@ namespace GME1003GoblinDanceParty
             _starScales = new List<float>();
             for (int i = 0; i < _numStars; i++)
             {
-                _starScales.Add(_rng.Next(25, 101) / 100f); // scale between 0.25f and 1.0f
+                _starScales.Add(_rng.Next(5, 41) / 500f); // scale pizza size
             }
 
 
@@ -116,8 +118,11 @@ namespace GME1003GoblinDanceParty
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //load out star sprite
-            _starSprite = Content.Load<Texture2D>("starSprite");
+            // Background Image
+            _background = Content.Load<Texture2D>("bgParty");
+
+            //load out pizza sprite
+            _starSprite = Content.Load<Texture2D>("pizzaParty");
 
 
             //***This is for the goblin. Ignore it for now.
@@ -155,8 +160,16 @@ namespace GME1003GoblinDanceParty
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            
+
             _spriteBatch.Begin();
+
+            // Draw the background
+            _spriteBatch.Draw(
+                _background,
+                destinationRectangle: new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),
+                color: Color.White
+            );
+
 
             //it would be great to have a background image here! 
             //you could make that happen with a single Draw statement.
